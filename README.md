@@ -12,9 +12,9 @@ Getting Started
 
 Folder structure should be like;
 C:\dev\
- ├── zxing-cpp\          # Clean ZXing-CPP source (from GitHub)
- ├── zxing-build\        # Compiled binaries (zxing.lib, zxing.dll, etc.)
- └── zxing-app\          # Your wrapper DLL project
+      zxing-cpp\          # Clean ZXing-CPP source (from GitHub)
+	  zxing-build\        # Compiled binaries (zxing.lib, zxing.dll, etc.)
+	  zxing-app\          # Your wrapper DLL project
 
 1️⃣ Clone the ZXing-CPP repository
 
@@ -40,62 +40,43 @@ cmake -G "Visual Studio 17 2022" -A x64 ^
 
 
 Notes:
-
 -A x64 → 64-bit build
-
 -DBUILD_SHARED_LIBS=OFF → build a static library (zxing.lib), easiest to link from your wrapper
-
 You can change to ON if you really need zxing.dll
-
 This will create the file:
-
-C:\dev\zxing-build\zxing.sln
+	C:\dev\zxing-build\zxing.sln
 
 4️⃣ Build ZXing
-cmake --build . --config Release
-
-
+	cmake --build . --config Release
 When it finishes you’ll see:
-
-C:\dev\zxing-build\Release\zxing.lib
-
-
+	C:\dev\zxing-build\Release\zxing.lib
 That’s the binary your wrapper project will link against.
 
 5️⃣ Verify the header path
-
 Headers live here:
-
 C:\dev\zxing-cpp\core\src\
-
-
 Examples:
-
-BarcodeFormat.h
-ReadBarcode.h
-WriteBarcode.h
-Result.h
-DecodeHints.h
-TextUtfEncoding.h
-
+	BarcodeFormat.h
+	ReadBarcode.h
+	WriteBarcode.h
+	Result.h
+	DecodeHints.h
+	TextUtfEncoding.h
 
 Your wrapper’s CMake file already includes this path:
-
 include_directories(${ZXING_ROOT}/core/src)
-
 
 ***************************************
           zxing-wrapper 
 ***************************************
 C:\dev\zxing-wrapper\
-│
-├── CMakeLists.txt
-├── include\
-│   └── zxing_wrapper.h
-└── src\
-    ├── zxing_wrapper.cpp
-    ├── stb_image.h
-    └── stb_image_write.h
+    CMakeLists.txt
+	include\
+		zxing_wrapper.h
+	src\
+	    zxing_wrapper.cpp
+		stb_image.h
+		stb_image_write.h
 
 1. include/zxing_wrapper.h
 2. src/zxing_wrapper.cpp
@@ -108,12 +89,10 @@ cmake -G "Visual Studio 17 2022" -A x64 ..
 cmake --build . --config Release
 
 After building, check:
-
 C:\dev\zxing-wrapper\build\Release\
-  ├── zxing_wrapper.dll
-  ├── zxing_wrapper.lib
-  ├── zxing.dll   ← from ZXing-C++
-
+  		-zxing_wrapper.dll
+        -zxing_wrapper.lib
+        -zxing.dll   ← from ZXing-C++
 
 ***************************************
          How to use the DLL 
@@ -142,14 +121,12 @@ C:\dev\zxing-wrapper\build\Release\
 📁 Step 3: Create folder structure
 - In File Explorer (not Visual Studio):
 C:\dev\my-app\
-│
-├── include\
-│   └── zxing_wrapper.h        ← copy from your wrapper project
-├── libs\
-│   ├── zxing-wrapper.lib
-│   └── zxing-wrapper.dll
-└── MyZXingApp.sln
-
+    include\
+        zxing_wrapper.h        ← copy from your wrapper project
+    libs\
+        zxing-wrapper.lib
+        zxing-wrapper.dll
+        MyZXingApp.sln
 
 ✅ Copy the following from your previous build:
 zxing_wrapper.h → into include
@@ -173,7 +150,6 @@ Configuration Properties → Linker → Input	Additional Dependencies	zxing-wrap
 - into your app’s output folder:
     C:\dev\MyZXingApp\x64\Release\
 - Otherwise, the program will fail at runtime with a “DLL not found” error.
-
 
 To read & write barcodes;
 
